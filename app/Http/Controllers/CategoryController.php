@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+//use App\Http\Requests\StoreCategoryRequest;
+//use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -16,6 +18,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
+
+        $categories =  Category::all();
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -26,6 +31,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('category.create');
     }
 
     /**
@@ -34,9 +40,19 @@ class CategoryController extends Controller
      * @param  \App\Http\Requests\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $category = new Category;
+        $category->name = $request->name;
+        $category->save();
+
+        session()->flash('status', __('Category created!'));
+        return redirect()->route('categories.show', $category);
     }
 
     /**
@@ -48,6 +64,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
+        return view('category.show', compact('category'));
     }
 
     /**
@@ -59,6 +76,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -68,9 +86,18 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
         //
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $category->name = $request->name;
+        $category->save();
+
+        session()->flash('status', __('Category updated !'));
+
+        return redirect()->route('categories.show', $category);
     }
 
     /**
@@ -82,5 +109,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+
+        session()->flash('status', __('Category deleted !'));
+
+        return redirect()->route('categories.index');
     }
 }
