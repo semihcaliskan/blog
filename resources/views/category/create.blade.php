@@ -17,10 +17,10 @@
 
                     <form action="{{ route('categories.store') }}" method="POST">
                         @csrf
-                            <div class="mb-3">
-                              <label for="inpName" class="form-label">{{ __('Category Name') }}</label>
-                              <input type="text" name="name" class="form-control" id="inpName">
-                            </div>
+                        <div class="mb-3">
+                            <label for="inpName" class="form-label">{{ __('Category Name') }}</label>
+                            <input type="text" name="title" class="form-control" id="inpName">
+                          </div>
 
                             <button type="submit" class="btn btn-primary">{{ __('Create Category') }}</button>
 

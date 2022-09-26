@@ -5,10 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Categories') }}
+                <div class="card-header">{{ __('Posts') }}
                     @auth
-                    <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">{{ __('New Category') }}</a>
+
+                    <a href="{{ route('posts.create') }}" class="btn btn-sm btn-primary">{{ __('New Post') }}</a>
                     @endauth
+
                 </div>
 
                 <div class="card-body">
@@ -18,9 +20,9 @@
                         </div>
                     @endif
 
-                    @foreach ($categories as $category)
-                        <a href="{{ route('categories.show', $category) }}">
-                            {{ $category->name }}<br>
+                    @foreach ($posts as $post)
+                        <a href="{{ route('posts.show', $post) }}">
+                            {{ $post->title }}<br>
                         </a><br>
                     @endforeach
                 </div>
