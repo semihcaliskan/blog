@@ -23,9 +23,18 @@
                 <div class="card-body">{{ $post->content }}</div>
 
                 <div class="card-body">
-                 {{ __('Category') }} : <a href="{{ route('categories.show', $post->category) }}"> {{ $post->category->name }}</a>
+                    {{ __('Tags') }} :
+                    @foreach ($post->tags as $tag)
+                    {{ $tag->name }}
+                    @endforeach
+
                     <br>
-                {{ __('Author') }} : {{ $post->user->name }}
+                 {{ __('Category') }} : <a
+                 href="{{ route('posts.index', ['category' => $post->category->id]) }}">{{ $post->category->name }}</a>
+                    <br>
+                {{ __('Author') }} : <a href="{{ route('posts.index', ['user' => $post->user->id]) }}">
+                    {{ $post->user->name }}
+                </a>
                 </div>
 
                 </div>

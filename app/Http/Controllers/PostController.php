@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
-//use App\Models\Tag;
-//use App\Http\Requests\StorePostRequest;
+use App\Models\Tag;
+use App\Http\Requests\StorePostRequest;
 //use App\Http\Requests\UpdatePostRequest;
 use \Illuminate\Http\Response;
 use \Illuminate\Http\Request;
@@ -26,10 +26,14 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $posts = Post::with(['user', 'category'])->get();
+        $postsQuery = Post::with(['user', 'category'])->latest();
+        if ($request->query('category')) $postsQuery->where('category_id', (int)$request->query('category'));
+        if ($request->query('user')) $postsQuery->where('user_id', (int)$request->query('user'));
+        $posts = $postsQuery->paginate(10)->withQueryString();
+
         return view('post.index', compact('posts'));
     }
 
@@ -52,15 +56,9 @@ class PostController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
         //
-        $request->validate([
-
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required',
-            'content' => 'required',
-        ]);
 
         $post = new Post;
         $post->user_id = $request->user()->id;
@@ -68,6 +66,22 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
+
+        $post->setTags($request->tags);
+/*
+        Post::create($request->all());
+        //etiketleri ekleyeceğiz
+        if($request->tags){
+            $tagstoAttach = explode(",", $request->tags);
+            foreach ($tagsToAttach as $tagName ) {
+                $tagName = trim($tagName);
+                $tag = Tag::firstOrCreate([
+                   'name' => $tagName
+                ]);
+                $post->tags()->attach($tag->id);
+            }
+        }
+*/
 
         session()->flash('status', __('Post Created !'));
 
@@ -83,7 +97,7 @@ class PostController extends Controller
     public function show($post)
     {
         //
-        $post = Post::with(['category','user'])->findOrFail($post);
+        $post = Post::with(['category','user','tags'])->findOrFail($post);
         return view('post.show', compact('post'));
     }
 
@@ -110,18 +124,14 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
-        $request->validate([
-
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required',
-            'content' => 'required',
-        ]);
 
         $post->user_id = $request->user()->id;
         $post->category_id = $request->category_id;
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
+
+        $post->setTags($request->tags);
 
         session()->flash('status', __('Post updated !'));
 

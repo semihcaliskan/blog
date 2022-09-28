@@ -20,19 +20,32 @@
                         @csrf
                             <div class="mb-3">
                               <label for="inpName" class="form-label">{{ __('Post Title') }}</label>
-                              <input type="text" name="title" class="form-control" id="inpName">
+                              <input type="text" name="title" class="form-control" id="inpName" value="{{ old('title') }}">
                                 @error('title')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label for="inpName" class="form-label">{{ __('Post Content') }}</label>
-                                <textarea type="text" name="content" class="form-control" id="inpName" row="2"></textarea>
+                                <label for="inpContent" class="form-label">{{ __('Post Content') }}</label>
+                                <textarea type="text" name="content" class="form-control" id="inpContent" row="2">{{ old('content') }}</textarea>
                                 @error('content')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                               </div>
+
+                              <div class="mb-3">
+                                <label for="inpTags" class="form-label">{{ __('Post Tags') }}</label>
+                                <input type="text" name="tags" class="form-control" id="inpTags" value="{{ old('tags') }}"
+                                    aria-describedby="tagsHelp">
+                                <div id="tagsHelp" class="form-text">{{  __('Seperate with commas.') }}</div>
+                                    </div>
+
+                                @error('tags')
+                                      <div class="alert alert-danger">{{ $message }}</div>
+                                  @enderror
+                              </div>
+
 
                               <div class="mb-3">
                                 <label for="inpName" class="form-label">{{ __('Select Category') }}</label>

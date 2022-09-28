@@ -35,8 +35,21 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="inpTags" class="form-label">{{ __('Post Tags') }}</label>
+                                <input type="text" name="tags" class="form-control" id="inpTags"
+                                value="@foreach($post->tags as $tag){{ $tag->name }}@endforeach"
+                                    aria-describedby="tagsHelp">
+                                <div id="tagsHelp" class="form-text">{{  __('Seperate with commas.') }}</div>
+                                    </div>
+
+                                @error('tags')
+                                      <div class="alert alert-danger">{{ $message }}</div>
+                                  @enderror
+                              </div>
+
+                            <div class="mb-3">
                               <label for="inpName" class="form-label">{{ __('Select Category') }}</label>
-                            <select class="form-select" name="category_id">
+                                <select class="form-select" name="category_id">
 
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}"
@@ -46,10 +59,10 @@
                                 </option>
                                 @endforeach
 
-                            </select>
-                            @error('category_id')
+                                </select>
+                                @error('category_id')
                                   <div class="alert alert-danger">{{ $message }}</div>
-                              @enderror
+                                @enderror
                           </div>
 
                             <button type="submit" class="btn btn-primary">{{ __('Update Post') }}</button>

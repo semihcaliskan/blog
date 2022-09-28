@@ -13,7 +13,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,11 @@ class StorePostRequest extends FormRequest
     {
         return [
             //
+            'category_id' => 'required|exists:categories,id',
+            'title' => 'required',
+            'content' => 'required',
+            'tags' => 'nullable|string',
         ];
+
     }
 }
