@@ -10,7 +10,7 @@ use App\Http\Requests\StorePostRequest;
 //use App\Http\Requests\UpdatePostRequest;
 use \Illuminate\Http\Response;
 use \Illuminate\Http\Request;
-use App\Http\Policies\PostPolicy;
+use App\Policies\PostPolicy;
 
 class PostController extends Controller
 {
@@ -18,8 +18,9 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index','show']);
-        $this->middleware('can:update,post')->only(['edit','update']);
-        $this->middleware('can:delete,post')->only(['destroy']);
+       // $this->middleware('can:update,post')->only(['edit','update']);
+       // $this->middleware('can:delete,post')->only(['destroy']);
+        $this->authorizeResource(Post::class, 'post');
     }
     /**
      * Display a listing of the resource.
@@ -94,10 +95,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($post)
+    public function show(Post $post)
     {
         //
-        $post = Post::with(['category','user','tags'])->findOrFail($post);
+      //  $post = Post::with(['category','user','tags'])->findOrFail($post->id);
         return view('post.show', compact('post'));
     }
 

@@ -10,6 +10,19 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
+/**
+ * Perform pre-authorization checks.
+ *
+ * @param  \App\Models\User  $user
+ * @param  string  $ability
+ * @return void|bool
+ */
+public function before(User $user, $ability)
+{
+    if ($user->is_admin) {
+        return true;
+    }
+}
 
     /**
      * Determine whether the user can view any models.
@@ -17,9 +30,10 @@ class PostPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
         //
+        return true;
 
     }
 
@@ -30,10 +44,10 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Post $post)
+    public function view(?User $user, Post $post)
     {
         //
-
+        return true;
     }
 
     /**
@@ -45,6 +59,7 @@ class PostPolicy
     public function create(User $user)
     {
         //
+        return true;
     }
 
     /**
@@ -83,6 +98,7 @@ class PostPolicy
     public function restore(User $user, Post $post)
     {
         //
+        return $user->is_admin;
     }
 
     /**
@@ -95,5 +111,6 @@ class PostPolicy
     public function forceDelete(User $user, Post $post)
     {
         //
+        return $user->is_admin;
     }
 }

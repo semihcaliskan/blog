@@ -33,7 +33,7 @@
                  href="{{ route('posts.index', ['category' => $post->category->id]) }}">{{ $post->category->name }}</a>
                     <br>
                 {{ __('Author') }} : <a href="{{ route('posts.index', ['user' => $post->user->id]) }}">
-                    {{ $post->user->name }}
+                    {{ $post->user->name }} - {{ $post->user->email }}
                 </a>
                 </div>
 
