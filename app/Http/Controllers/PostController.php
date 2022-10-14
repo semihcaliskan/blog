@@ -90,7 +90,7 @@ class PostController extends Controller
         session()->flash('status', __('Post Created !'));
 
          //Yeni bir POST yaratıldı.
-        PostCreatedEvents::dispatch($post);
+        // PostCreatedEvents::dispatch($post);
          // Mail::to($request->user())->send(new PostCreated($post));
 
         return redirect()->route('posts.show', $post);
