@@ -21,11 +21,11 @@ class DatabaseSeeder extends Seeder
 \App\Models\User::factory(10)->create();
 \App\Models\Category::factory(10)->create();
 
-/* foreach (\App\Models\Category::all() as $category) {
+ foreach (\App\Models\Category::all() as $category) {
     $category->followers()->attach(
         \App\Models\User::inRandomOrder()->take(rand(1, 6))->pluck('id')
     );
-} */
+}
 
 \App\Models\Post::factory(50)->create();
 \App\Models\Tag::factory(20)->create();

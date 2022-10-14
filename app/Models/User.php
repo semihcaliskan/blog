@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -46,4 +47,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+        /* The roles that belong to the User
+         *
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+         */
+        public function followed_categories(): BelongsToMany
+        {
+            return $this->belongsToMany(Category::class, 'category_followers');
+        }
+
 }

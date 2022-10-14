@@ -52,3 +52,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/mail', [App\Http\Controllers\MailController::class, 'index']);
 
+Route::get('/categories/{category}/follow', [App\Http\Controllers\CategoryController::class, 'follow'])->name('categories.follow');
+
+Route::get('/categories/{category}/unfollow', [App\Http\Controllers\CategoryController::class, 'unfollow'])->name('categories.unfollow');
