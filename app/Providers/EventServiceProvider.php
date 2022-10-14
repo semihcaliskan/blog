@@ -7,6 +7,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Listeners\SendPostCreatedEmail;
+use App\Listeners\SendNewPostOnFollowedCategoryMail;
 use App\Events\PostCreated;
 
 
@@ -23,6 +24,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         PostCreated::class => [
             SendPostCreatedEmail::class,
+            SendNewPostOnFollowedCategoryMail::class
         ]
     ];
 
