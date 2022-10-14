@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
+use RakibDevs\Weather\Weather;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ use App\Http\Controllers\Controller;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'index'])->name('weather');
 
 /**
  * Basit bir blog sistemi istiyoruz
@@ -45,4 +49,6 @@ Route::resource('categories', CategoryController::class);
 Route::resource('posts', PostController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/mail', [App\Http\Controllers\MailController::class, 'index']);
 

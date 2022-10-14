@@ -11,6 +11,9 @@ use App\Http\Requests\StorePostRequest;
 use \Illuminate\Http\Response;
 use \Illuminate\Http\Request;
 use App\Policies\PostPolicy;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostCreated;
+use App\Events\PostCreated as PostCreatedEvents;
 
 class PostController extends Controller
 {
@@ -86,6 +89,10 @@ class PostController extends Controller
 
         session()->flash('status', __('Post Created !'));
 
+         //Yeni bir POST yaratıldı.
+        PostCreatedEvents::dispatch($post);
+         // Mail::to($request->user())->send(new PostCreated($post));
+
         return redirect()->route('posts.show', $post);
     }
 
@@ -135,6 +142,9 @@ class PostController extends Controller
         $post->setTags($request->tags);
 
         session()->flash('status', __('Post updated !'));
+
+
+
 
         return \redirect()->route('posts.show', $post);
     }
