@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Post;
 
 
-class PostCreated extends Mailable
+class PostCreated extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
